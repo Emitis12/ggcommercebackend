@@ -1,13 +1,18 @@
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  price: { type: Number, required: true },
-  image: { type: String },
-  vendorEmail: { type: String, required: true },
-  vendorName: { type: String, required: true },
-  vendorPhone: { type: String },
-  vendorLogo: { type: String },
-});
+const productSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true, trim: true },
+    price: { type: Number, required: true, min: 0 },
+    image: { type: String, default: "" }, // external/public URL of product image
+    vendorEmail: { type: String, required: true, lowercase: true, trim: true },
+    vendorName: { type: String, required: true, trim: true },
+    vendorPhone: { type: String, default: "" },
+    vendorLogo: { type: String, default: "" },
+  },
+  { timestamps: true } // auto adds createdAt & updatedAt
+);
 
-export default mongoose.model("Product", productSchema);
+const Product = mongoose.model("Product", productSchema);
+
+export default Product;
